@@ -100,7 +100,7 @@ class Pinba extends Component
      * Creates stopped Pinba timer so it can be later flushed to Pinba
      *
      * @param array $tags
-     * @param int $value
+     * @param float $value
      */
     public function profile($tags, $value)
     {

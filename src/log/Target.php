@@ -65,7 +65,7 @@ class Target extends BaseTarget
     /**
      * @param string $token
      */
-    private function unregisterProfiling($token)
+    private function forgetProfiling($token)
     {
         unset($this->profilingSessions[$token]);
     }
@@ -92,17 +92,16 @@ class Target extends BaseTarget
         if (! $profilingStartData = $this->getProfilingSession($token)) {
             return;
         }
-        $timeDiff = (int) (($logMessage[3] - $profilingStartData['timestamp']) * 1000.);
+        // Yii gets timestamps with utime()
+        $timeDiff = $logMessage[3] - $profilingStartData['timestamp'];
         $this->getPinba()->profile(
             [
-                'source' => 'logTarget',
+                'reporter' => $this->reporter,
                 'category' => $profilingStartData['category'],
             ],
             $timeDiff
         );
-        $this->unregisterProfiling($token);
-
-        echo $profilingStartData['category'] . ' ' . $timeDiff . PHP_EOL;
+        $this->forgetProfiling($token);
     }
 
     /**
@@ -115,6 +114,7 @@ class Target extends BaseTarget
             $this->filterMessages($messages, $this->getLevels(), $this->categories, $this->except)
         );
         $this->export();
+        $this->messages = [];
     }
 
     /**
