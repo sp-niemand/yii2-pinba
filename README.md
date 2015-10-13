@@ -10,7 +10,6 @@ with [Yii2](https://github.com/yiisoft/yii2 "Yii2 repository")
 Add the main component and the log target to the config.
 
 ```php
-
     'components' => [
         // ...
         'pinba' => [
@@ -28,29 +27,26 @@ Add the main component and the log target to the config.
         ]
         // ...
     ]
-
 ```
 
 The target handles export of the profile logs to Pinba. Use standard Yii2 method for profiling:
 
 ```php
+\Yii::beginProfile($token, $category);
 
-    \Yii::beginProfile($token, $category);
-    
-    // ...
-    
-    \Yii::endProfile($token, $category);
+// ...
+
+\Yii::endProfile($token, $category);
 ```
 
 Or you can use methods from the component directly:
 
 ```php
+$p = \Yii::$app->get('pinba');
+/** @var Pinba $p */
+$p->startTimer('timer1');
 
-    $p = \Yii::$app->get('pinba');
-    /** @var Pinba $p */
-    $p->startTimer('timer1');
-    
-    // ...
-    
-    $p->stopTimer('timer1');
+// ...
+
+$p->stopTimer('timer1');
 ```
