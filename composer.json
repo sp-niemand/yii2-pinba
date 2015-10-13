@@ -24,6 +24,6 @@
         "misterion/pinba-phpdoc": "For IDE hints"
     },
     "autoload": {
-        "psr-4": { "jobbyDb\\": "src/" }
+        "psr-4": { "yiiPinba\\": "src/" }
     }
 }
