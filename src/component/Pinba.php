@@ -18,8 +18,36 @@ use yii\base\Component;
  */
 class Pinba extends Component
 {
+    const DEFAULT_MAX_TAG_LENGTH = 64;
+    const TRUNCATION_PREFIX = '...';
+
+    /** @var int Maximum length for tag strings */
+    public $maxTagLength = self::DEFAULT_MAX_TAG_LENGTH;
+
     /** @var resource[] */
     private $runningTimers = [];
+
+    /**
+     * Returns the tags ready to be sent to Pinba
+     *
+     * @param string $tags
+     *
+     * @return array
+     */
+    private function formatTags($tags)
+    {
+        return array_map(function ($tag) {
+            if (($len = strlen($tag)) <= $this->maxTagLength) {
+                return $tag;
+            }
+            $truncationToken = '...' . $len;
+            return substr_replace(
+                $tag,
+                $truncationToken,
+                $this->maxTagLength - strlen($truncationToken)
+            );
+        }, $tags);
+    }
 
     /**
      * Starts the timer
@@ -35,7 +63,7 @@ class Pinba extends Component
             return false;
         }
         $actualTags = array_merge($tags, ['timerToken' => $token]);
-        $this->runningTimers[$token] = pinba_timer_start($actualTags);
+        $this->runningTimers[$token] = pinba_timer_start($this->formatTags($actualTags));
         return true;
     }
 
@@ -76,6 +104,6 @@ class Pinba extends Component
      */
     public function profile($tags, $value)
     {
-        pinba_timer_add($tags, $value);
+        pinba_timer_add($this->formatTags($tags), $value);
     }
 }
