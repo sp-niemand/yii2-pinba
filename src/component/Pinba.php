@@ -9,6 +9,7 @@
 namespace yiiPinba\component;
 
 use yii\base\Component;
+use yiiPinba\behavior\TimersRemindBehavior;
 
 /**
  * Yii2 pinba wrapper
@@ -24,8 +25,28 @@ class Pinba extends Component
     /** @var int Maximum length for tag strings */
     public $maxTagLength = self::DEFAULT_MAX_TAG_LENGTH;
 
+    /**
+     * @var bool TRUE if warnings should be logged for timers which were not
+     * explicitly stopped
+     */
+    public $remindAboutTimers = true;
+
     /** @var resource[] */
     private $runningTimers = [];
+
+    /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        parent::init();
+        if ($this->remindAboutTimers) {
+            \Yii::$app->attachBehavior('pinbaTimersRemind', [
+                'class' => TimersRemindBehavior::className(),
+                'pinba' => $this,
+            ]);
+        }
+    }
 
     /**
      * Returns the tags ready to be sent to Pinba
@@ -86,6 +107,27 @@ class Pinba extends Component
         }
         return pinba_timer_stop($timer);
     }
+
+    /**
+     * Checks if there are running any timers registered
+     *
+     * @return bool
+     */
+    public function hasRunningTimers()
+    {
+        return !empty($this->runningTimers);
+    }
+
+    /**
+     * Returns the tokens of the timers registered
+     *
+     * @return string[]
+     */
+    public function getRunningTimerTokens()
+    {
+        return array_keys($this->runningTimers);
+    }
+
 
     /**
      * Stops and flushes all timers
