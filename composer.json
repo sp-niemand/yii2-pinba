@@ -1,0 +1,29 @@
+{
+    "name": "sp-niemand/yii2-pinba",
+    "description": "Pinba for Yii2",
+    "type": "library",
+    "keywords": [
+        "yii2", "pinba", "profiling", "profile"
+    ],
+    "homepage": "https://github.com/sp-niemand/yii2-pinba",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dmitri Cherepovski",
+            "email": "codernumber1@gmail.com",
+            "role": "lead"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/sp-niemand/yii2-pinba/issues"
+    },
+    "require": {
+        "php": ">=5.4"
+    },
+    "suggest": {
+        "misterion/pinba-phpdoc": "For IDE hints"
+    },
+    "autoload": {
+        "psr-4": { "jobbyDb\\": "src/" }
+    }
+}
