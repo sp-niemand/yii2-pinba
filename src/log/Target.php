@@ -2,7 +2,7 @@
 /**
  * Class Target
  *
- * @author Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @author Dmitri Cherepovski <codernumber1@gmail.com>
  * @package yiiPinba\log
  */
 
@@ -18,7 +18,7 @@ use yiiPinba\component\Pinba;
  * Use \yii\BaseYii::beginProfile() and \yii\BaseYii::endProfile()
  * to profile your code
  *
- * @author Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @author Dmitri Cherepovski <codernumber1@gmail.com>
  * @package yiiPinba\log
  */
 class Target extends BaseTarget

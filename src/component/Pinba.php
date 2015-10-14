@@ -2,7 +2,7 @@
 /**
  * Class Pinba
  *
- * @author Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @author Dmitri Cherepovski <codernumber1@gmail.com>
  * @package yiiPinba\component
  */
 
@@ -15,7 +15,7 @@ use yiiPinba\behavior\TimersRemindBehavior;
 /**
  * Yii2 pinba wrapper
  *
- * @author Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @author Dmitri Cherepovski <codernumber1@gmail.com>
  * @package yiiPinba\component
  */
 class Pinba extends Component

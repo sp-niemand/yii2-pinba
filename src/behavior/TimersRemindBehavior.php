@@ -2,7 +2,7 @@
 /**
  * Class TimersRemindBehavior
  *
- * @author Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @author Dmitri Cherepovski <codernumber1@gmail.com>
  * @package yiiPinba\behavior
  */
 
@@ -18,7 +18,7 @@ use yiiPinba\component\Pinba;
  * Reminds through logs about the Pinba timers still running after the request
  * handling
  *
- * @author Dmitri Cherepovski <dmitrij.cherepovskij@murka.com>
+ * @author Dmitri Cherepovski <codernumber1@gmail.com>
  * @package yiiPinba\behavior
  */
 class TimersRemindBehavior extends Behavior
