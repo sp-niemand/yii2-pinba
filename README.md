@@ -5,6 +5,12 @@
 Integrates [pinba](http://pinba.org/ "Pinba site") 
 with [Yii2](https://github.com/yiisoft/yii2 "Yii2 repository")
 
+## Installation
+
+Use composer to install:
+
+`composer require sp-niemand/yii2-pinba`
+
 ## Usage
 
 Add the main component and the log target to the config.
