@@ -3,7 +3,7 @@
     "description": "Pinba for Yii2",
     "type": "library",
     "keywords": [
-        "yii2", "pinba", "profiling", "profile"
+        "yii2", "pinba", "profiling", "profile", "yii2-pinba"
     ],
     "homepage": "https://github.com/sp-niemand/yii2-pinba",
     "license": "MIT",
