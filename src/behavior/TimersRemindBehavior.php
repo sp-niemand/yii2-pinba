@@ -8,8 +8,8 @@
 
 namespace yiiPinba\behavior;
 
-use yii\base\Application;
 use yii\base\Behavior;
+use yii\base\Event;
 use yii\base\InvalidConfigException;
 use yii\helpers\VarDumper;
 use yiiPinba\component\Pinba;
@@ -20,35 +20,33 @@ use yiiPinba\component\Pinba;
  *
  * @author Dmitri Cherepovski <codernumber1@gmail.com>
  * @package yiiPinba\behavior
+ *
+ * @property-write Pinba|string $pinba
  */
-class TimersRemindBehavior extends Behavior
+class TimersRemindBehavior extends BaseApplicationBehavior
 {
     /** @var Pinba */
-    public $pinba;
+    private $pinba;
 
     /**
-     * @inheritdoc
+     * @param string|Pinba $pinba
+     * @throws InvalidConfigException If wrong Pinba component given
      */
-    public function attach($owner)
+    public function setPinba($pinba)
     {
-        if (! $owner instanceof Application) {
-            throw new InvalidConfigException('Owner must be an application class');
+        if (is_string($pinba)) {
+            $this->pinba = \Yii::$app->get($pinba);
+        } elseif ($pinba instanceof Pinba) {
+            $this->pinba = $pinba;
+        } else {
+            throw new InvalidConfigException('Wrong pinba component given');
         }
-        parent::attach($owner);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function events()
-    {
-        return [Application::EVENT_AFTER_REQUEST => 'checkTimers'];
     }
 
     /**
      * Checks if there some timers are still running after the request handling
      */
-    public function checkTimers()
+    public function afterRequest(Event $event)
     {
         if ($this->pinba->hasRunningTimers()) {
             \Yii::warning(
