@@ -13,9 +13,13 @@ Use composer to install:
 
 ## Usage
 
+### Standard
+
 Add the main component and the log target to the config.
 
 ```php
+    'bootstrap' => [/* ... */ 'pinba' /* ... */],
+
     'components' => [
         // ...
         'pinba' => [
@@ -45,7 +49,11 @@ The target handles export of the profile logs to Pinba. Use standard Yii2 method
 \Yii::endProfile($token, $category);
 ```
 
-Or you can use methods from the component directly:
+Bootstrapping is needed if you want to automatically time actions run.
+
+### Low level
+
+Of course, you can use methods from the component directly:
 
 ```php
 $p = \Yii::$app->get('pinba');
