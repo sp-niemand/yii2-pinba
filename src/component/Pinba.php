@@ -8,8 +8,11 @@
 
 namespace yiiPinba\component;
 
+use yii\base\Application;
+use yii\base\BootstrapInterface;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
+use yiiPinba\behavior\ApplicationProfilingBehavior;
 use yiiPinba\behavior\TimersRemindBehavior;
 
 /**
@@ -18,7 +21,7 @@ use yiiPinba\behavior\TimersRemindBehavior;
  * @author Dmitri Cherepovski <codernumber1@gmail.com>
  * @package yiiPinba\component
  */
-class Pinba extends Component
+class Pinba extends Component implements BootstrapInterface
 {
     const DEFAULT_MAX_TAG_LENGTH = 64;
     const TRUNCATION_PREFIX = '...';
@@ -37,6 +40,14 @@ class Pinba extends Component
     public $remindAboutTimers = true;
 
     /**
+     * @var bool TRUE if application handleRequest() and actions run should
+     * be profiled
+     *
+     * This is used only if the component is bootstrapped
+     */
+    public $profileAction = true;
+
+    /**
      * @var string|null Server from the PHP config gets used by default
      * @see https://github.com/tony2001/pinba_engine/wiki/PHP-extension#pinbaserver
      */
@@ -47,6 +58,17 @@ class Pinba extends Component
 
     /** @var int */
     private $clientUsed;
+
+    /**
+     * Bootstrap method to be called during application bootstrap stage.
+     * @param Application $app the application currently running
+     */
+    public function bootstrap($app)
+    {
+        if ($this->profileAction) {
+            $app->attachBehavior('applicationProfiling', new ApplicationProfilingBehavior());
+        }
+    }
 
     /**
      * Returns the type of pinba client used
