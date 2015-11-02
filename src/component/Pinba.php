@@ -31,7 +31,7 @@ class Pinba extends Component implements BootstrapInterface
     const CLIENT_PHP_CODE = 2;
 
     /** @var bool */
-    public $worksWithoutPinba = false;
+    public $worksWithoutPinba = true;
 
     /** @var int Maximum length for tag strings */
     public $maxTagLength = self::DEFAULT_MAX_TAG_LENGTH;
