@@ -30,6 +30,9 @@ class Pinba extends Component implements BootstrapInterface
     const CLIENT_PHP_EXTENSION = 1;
     const CLIENT_PHP_CODE = 2;
 
+    /** @var bool */
+    public $worksWithoutPinba = false;
+
     /** @var int Maximum length for tag strings */
     public $maxTagLength = self::DEFAULT_MAX_TAG_LENGTH;
 
@@ -77,6 +80,10 @@ class Pinba extends Component implements BootstrapInterface
      */
     private function getClientUsed()
     {
+        if ($this->clientUsed !== null) {
+            return $this->clientUsed;
+        }
+
         if (extension_loaded('pinba')) {
             $this->clientUsed = self::CLIENT_PHP_EXTENSION;
         } elseif (function_exists('pinba_timer_start')) {
@@ -92,7 +99,8 @@ class Pinba extends Component implements BootstrapInterface
      */
     public function init()
     {
-        if (($clientUsed = $this->getClientUsed()) === self::CLIENT_NONE) {
+        $clientUsed = $this->getClientUsed();
+        if (!$this->worksWithoutPinba && $clientUsed === self::CLIENT_NONE) {
             throw new InvalidConfigException('Pinba functionale not available');
         }
 
@@ -145,6 +153,10 @@ class Pinba extends Component implements BootstrapInterface
      */
     public function startTimer($token, $tags = [])
     {
+        if ($this->worksWithoutPinba && $this->getClientUsed() === self::CLIENT_NONE) {
+            return true;
+        }
+
         if (isset($this->runningTimers[$token])) {
             return false;
         }
@@ -162,6 +174,10 @@ class Pinba extends Component implements BootstrapInterface
      */
     public function stopTimer($token)
     {
+        if ($this->worksWithoutPinba && $this->getClientUsed() === self::CLIENT_NONE) {
+            return true;
+        }
+
         if (! isset($this->runningTimers[$token])) {
             return false;
         }
@@ -199,6 +215,10 @@ class Pinba extends Component implements BootstrapInterface
      */
     public function flush()
     {
+        if ($this->worksWithoutPinba && $this->getClientUsed() === self::CLIENT_NONE) {
+            return;
+        }
+
         pinba_timers_stop();
         pinba_flush();
     }
@@ -211,6 +231,10 @@ class Pinba extends Component implements BootstrapInterface
      */
     public function profile($tags, $value)
     {
+        if ($this->worksWithoutPinba && $this->getClientUsed() === self::CLIENT_NONE) {
+            return;
+        }
+
         pinba_timer_add($this->formatTags($tags), $value);
     }
 }
