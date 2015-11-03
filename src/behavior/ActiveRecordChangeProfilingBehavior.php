@@ -80,7 +80,7 @@ class ActiveRecordChangeProfilingBehavior extends Behavior
     public function endProfile(Event $event)
     {
         $category = $this->getCategory(static::$eventToOperationMap[$event->name]);
-        \Yii::beginProfile($category, $category);
+        \Yii::endProfile($category, $category);
     }
     
     /**
