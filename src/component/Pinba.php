@@ -119,6 +119,19 @@ class Pinba extends Component implements BootstrapInterface
                 ini_set('pinba.server', $this->server);
             }
         }
+
+        if ($clientUsed !== self::CLIENT_NONE) {
+            $request = \Yii::$app->request;
+            if ($request->isConsoleRequest) {
+                pinba_script_name_set(
+                    (isset($_SERVER['argv'][0]) ? $_SERVER['argv'][0] : '')
+                        . ' '
+                        . (isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : '')
+                );
+            } else {
+                pinba_script_name_set($request->getScriptUrl() . '/' . $request->getPathInfo());
+            }
+        }
     }
 
     /**
