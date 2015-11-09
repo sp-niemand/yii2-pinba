@@ -38,11 +38,11 @@ class ActiveRecordChangeProfilingBehavior extends Behavior
      */
     private static $eventToOperationMap = [
         BaseActiveRecord::EVENT_BEFORE_UPDATE => self::OP_NAME_UPDATE,
-        BaseActiveRecord::EVENT_BEFORE_INSERT => self::OP_NAME_DELETE,
+        BaseActiveRecord::EVENT_BEFORE_INSERT => self::OP_NAME_INSERT,
         BaseActiveRecord::EVENT_BEFORE_DELETE => self::OP_NAME_DELETE,
 
         BaseActiveRecord::EVENT_AFTER_UPDATE => self::OP_NAME_UPDATE,
-        BaseActiveRecord::EVENT_AFTER_INSERT => self::OP_NAME_DELETE,
+        BaseActiveRecord::EVENT_AFTER_INSERT => self::OP_NAME_INSERT,
         BaseActiveRecord::EVENT_AFTER_DELETE => self::OP_NAME_DELETE,
     ];
     
